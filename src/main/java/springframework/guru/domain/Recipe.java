@@ -4,6 +4,8 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,12 +15,11 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Recipe {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	
 	private String description;
 	private Integer prepTime;
 	private Integer cookTime;
@@ -26,17 +27,19 @@ public class Recipe {
 	private String source;
 	private String url;
 	private String directions;
-	// private Difficulty difficulty;
-	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy ="recipe")
+
+	@Enumerated(value=EnumType.STRING)
+	private Difficulty difficulty;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
 	private Set<Ingredient> ingredients;
-	
+
 	@Lob
-	private Byte[] image; 
-	
-	@OneToOne(cascade=CascadeType.ALL)
+	private Byte[] image;
+
+	@OneToOne(cascade = CascadeType.ALL)
 	private Notes notes;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -116,5 +119,23 @@ public class Recipe {
 	public void setNotes(Notes notes) {
 		this.notes = notes;
 	}
+
+	public Difficulty getDifficulty() {
+		return difficulty;
+	}
+
+	public void setDifficulty(Difficulty difficulty) {
+		this.difficulty = difficulty;
+	}
+
+	public Set<Ingredient> getIngredients() {
+		return ingredients;
+	}
+
+	public void setIngredients(Set<Ingredient> ingredients) {
+		this.ingredients = ingredients;
+	}
+	
+	
 
 }
