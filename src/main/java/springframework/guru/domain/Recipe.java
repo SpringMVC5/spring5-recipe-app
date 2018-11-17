@@ -9,7 +9,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -28,7 +31,11 @@ public class Recipe {
 	private String url;
 	private String directions;
 
-	@Enumerated(value=EnumType.STRING)
+	@ManyToMany
+	@JoinTable(name = "recipe_category", joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private Set<Category> categories;
+
+	@Enumerated(value = EnumType.STRING)
 	private Difficulty difficulty;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
@@ -135,7 +142,13 @@ public class Recipe {
 	public void setIngredients(Set<Ingredient> ingredients) {
 		this.ingredients = ingredients;
 	}
-	
-	
+
+	public Set<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
+	}
 
 }
